@@ -1,0 +1,73 @@
+%% Cynbit Architecture: Current Monolithic Server Actions vs Proposed FastAPI Microservices
+
+flowchart TD
+    subgraph Current_Architecture["CURRENT ARCHITECTURE: Monolithic Next.js Server Actions on Vercel"]
+        direction TB
+        Client_Curr["Client Browser / Mobile User"]
+        Vercel_Edge["Vercel Anycast Edge (bom1 CDN)"]
+        
+        subgraph Vercel_Functions["Next.js App Router (Serverless Node.js Lambdas)"]
+            Prerender["Static Prerender Cache (727KB Dashboard Leak)"]
+            SA_Inquiry["submitInquiry RPC"]
+            SA_Careers["submitCandidateApplication RPC"]
+            SA_Payment["createBitelevateCashfreeOrder RPC"]
+            SA_Verify["verifyBitelevatePayment RPC"]
+            SA_Auth["loginToPortal / loginIntern RPC"]
+        end
+        
+        Cashfree_Ext["Cashfree Payment Gateway (Client-side checkout modal)"]
+        Storage_Ext["Unobservable DB / Supabase / Third-party APIs"]
+        
+        Client_Curr -->|"Unauthenticated GET /dashboard"| Prerender
+        Client_Curr -->|"POST RSC Server Action (Wildcard CORS)"| Vercel_Edge
+        Vercel_Edge --> SA_Inquiry & SA_Careers & SA_Payment & SA_Verify & SA_Auth
+        SA_Payment -.->|"Creates Session"| Cashfree_Ext
+        Client_Curr -->|"Direct Checkout"| Cashfree_Ext
+        SA_Verify -.->|"Transmits Plaintext Credentials in JSON"| Client_Curr
+        SA_Careers -.->|"User Enumeration / Duplicate Notice"| Client_Curr
+        SA_Auth -.->|"Shared Password / LocalStorage Activity"| Client_Curr
+        Vercel_Functions --> Storage_Ext
+    end
+
+    subgraph Proposed_Architecture["PROPOSED ARCHITECTURE: Decoupled Defense-in-Depth FastAPI Backend"]
+        direction TB
+        Client_Prop["Client Browser / Next.js Frontend"]
+        Cloudflare_WAF["Cloudflare Edge / WAF / Turnstile Bot Defense"]
+        
+        subgraph FastAPI_Backend["FastAPI High-Performance Async Application"]
+            direction TB
+            subgraph Middleware_Pipeline["Security Middleware Pipeline"]
+                MW_CORS["Strict CORS (Whitelisted Origin Only)"]
+                MW_Headers["Security Headers (CSP, HSTS, X-Frame-Options DENY, nosniff)"]
+                MW_RateLimit["Sliding Window Rate Limiter (IP + Route Key)"]
+                MW_Audit["Structured Audit & Request Timing Logger"]
+            end
+            
+            subgraph Core_Services["Business Logic & Domain Layer"]
+                API_Auth["/api/v1/auth (Argon2id, HttpOnly JWT, Generic Errors)"]
+                API_Inquiry["/api/v1/inquiries (Pydantic Sanitization, Lead Ingestion)"]
+                API_Careers["/api/v1/careers (Zero-Knowledge Duplicate Check, PII Vault)"]
+                API_Payments["/api/v1/payments (Cashfree Integration, Webhook HMAC Verification)"]
+                API_Intern["/api/v1/intern (RBAC Protected Dashboard, Server-Side Guards)"]
+            end
+            
+            MW_CORS --> MW_Headers --> MW_RateLimit --> MW_Audit
+            MW_Audit --> API_Auth & API_Inquiry & API_Careers & API_Payments & API_Intern
+        end
+        
+        subgraph Storage_Layer["Persistence, Caching & Asynchronous Queue"]
+            Redis_Cluster[("Redis Cluster: Rate Limiting & Session Store")]
+            Postgres_DB[("PostgreSQL 16: Encrypted PII, Relations, Audit Logs")]
+            Worker_Queue["Async Worker (Celery / ARQ): Email Dispatch & Order Reconciliation"]
+        end
+        
+        Cashfree_Gateway["Cashfree Payment Gateway API"]
+        
+        Client_Prop -->|"HTTPS Requests + Strict Headers"| Cloudflare_WAF
+        Cloudflare_WAF -->|"Proxy Pass"| FastAPI_Backend
+        FastAPI_Backend <-->|"Token Bucket & Blacklist"| Redis_Cluster
+        FastAPI_Backend <-->|"Async SQLAlchemy 2.0 / asyncpg"| Postgres_DB
+        FastAPI_Backend -->|"Enqueue Email / Discord Alerts"| Worker_Queue
+        API_Payments <-->|"Server-to-Server Order Creation"| Cashfree_Gateway
+        Cashfree_Gateway -->|"Signed Webhook (HMAC-SHA256)"| API_Payments
+    end

@@ -1,0 +1,71 @@
+version: "3.8"
+
+services:
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: cynbit-backend-api
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    environment:
+      - ENVIRONMENT=production
+      - DATABASE_URL=postgresql+asyncpg://cynbit_user:cynbit_secret_pw@postgres:5432/cynbit_db
+      - REDIS_URL=redis://redis:6379/0
+      - JWT_SECRET_KEY=CHANGE_THIS_IN_PRODUCTION_TO_A_HIGH_ENTROPY_HEX_STRING_64_CHARS
+      - CASHFREE_APP_ID=TEST_CF_APP_ID
+      - CASHFREE_SECRET_KEY=TEST_CF_SECRET_KEY
+      - CASHFREE_ENVIRONMENT=sandbox
+      - ALLOWED_ORIGINS=https://www.cynbit.in,https://cynbit.in,https://bitelevate.cynbit.in
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - cynbit-network
+
+  postgres:
+    image: postgres:16-alpine
+    container_name: cynbit-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: cynbit_user
+      POSTGRES_PASSWORD: cynbit_secret_pw
+      POSTGRES_DB: cynbit_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U cynbit_user -d cynbit_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - cynbit-network
+
+  redis:
+    image: redis:7-alpine
+    container_name: cynbit-redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+    volumes:
+      - redis_data:/data
+    networks:
+      - cynbit-network
+
+volumes:
+  postgres_data:
+  redis_data:
+
+networks:
+  cynbit-network:
+    driver: bridge

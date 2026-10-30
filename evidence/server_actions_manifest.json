@@ -1,0 +1,62 @@
+{
+  "audit_target": "https://www.cynbit.in",
+  "audit_date": "2026-10-30",
+  "discovered_server_actions": [
+    {
+      "action_id": "40247ba4465344b3386595bab4303317cdcce907df",
+      "function_name": "submitInquiry",
+      "module": "app/(marketing)/contact/page",
+      "method": "POST",
+      "content_type": "text/x-component / multipart/form-data",
+      "risk_classification": "MEDIUM (Missing Rate Limit, Missing Bot Mitigation)"
+    },
+    {
+      "action_id": "40645a00e04f6854903cf3a65fda4c75ddd7691de9",
+      "function_name": "submitCandidateApplication",
+      "module": "app/(marketing)/careers/[slug]/page",
+      "method": "POST",
+      "content_type": "multipart/form-data",
+      "risk_classification": "HIGH (PII Ingestion, User Enumeration on Duplicate Submission)"
+    },
+    {
+      "action_id": "40450605530d78e25921058a0059197fdb18b5f074",
+      "function_name": "createBitelevateCashfreeOrder",
+      "module": "app/(marketing)/bitelevate/page",
+      "method": "POST",
+      "content_type": "multipart/form-data",
+      "risk_classification": "HIGH (Financial Transaction Initiation, Gateway Session Flooding)"
+    },
+    {
+      "action_id": "60895028315fbe0e72db7e2a1871d236f08f860ce1",
+      "function_name": "verifyBitelevatePayment",
+      "module": "app/(marketing)/bitelevate/page",
+      "method": "POST",
+      "content_type": "multipart/form-data",
+      "risk_classification": "CRITICAL (Plaintext Password Dispatched in JSON Response)"
+    },
+    {
+      "action_id": "40d93da1cc26de4ef37bcb273184b7141ef77a50f8",
+      "function_name": "loginToPortal",
+      "module": "app/portal/page",
+      "method": "POST",
+      "content_type": "multipart/form-data",
+      "risk_classification": "HIGH (Shared Master Secret, Client LocalStorage State)"
+    },
+    {
+      "action_id": "60c644173c8290d140c74d8944fc29bd658873a282",
+      "function_name": "loginIntern",
+      "module": "app/intern-portal/login/page",
+      "method": "POST",
+      "content_type": "multipart/form-data",
+      "risk_classification": "MEDIUM (Brute-Force Risk without Sliding Window Rate Limiting)"
+    },
+    {
+      "action_id": "408d222e7a54ae1d8dcd8b54a9aa53726d7348a7b0",
+      "function_name": "requestPasswordReset",
+      "module": "app/intern-portal/login/page",
+      "method": "POST",
+      "content_type": "multipart/form-data",
+      "risk_classification": "MEDIUM (User Enumeration via Differential Response Status)"
+    }
+  ]
+}
