@@ -25,3 +25,4 @@ async def test_intern_dashboard_allows_authenticated_user(client, test_user):
     assert data["status"] == "authorized"
     assert data["intern"]["email"] == test_user.email
     assert "curriculum" in data
+

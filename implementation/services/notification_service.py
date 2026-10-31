@@ -34,3 +34,4 @@ class NotificationService:
         reset_url = f"https://bitelevate.cynbit.in/reset-password?token={reset_token}"
         logger.info(f"EMAIL_DISPATCH: [Password Reset] To={email} Link={reset_url}")
         return True
+

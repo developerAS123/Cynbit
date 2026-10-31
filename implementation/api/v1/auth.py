@@ -136,3 +136,4 @@ async def get_current_user_profile(user: User = Depends(get_current_user)):
         full_name=user.full_name,
         role=user.role
     )
+

@@ -60,3 +60,4 @@ async def get_intern_tasks(user: User = Depends(get_current_user)):
             }
         ]
     }
+

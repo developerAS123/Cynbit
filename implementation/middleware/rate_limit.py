@@ -47,3 +47,4 @@ def rate_limit_dependency(limiter: SlidingWindowRateLimiter):
         key = f"{client_ip}:{request.url.path}"
         limiter.check(key)
     return dependency
+

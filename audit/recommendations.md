@@ -211,3 +211,4 @@ async def submit_application(payload: ApplicationCreate, db: AsyncSession = Depe
         message="Application blueprint received. A confirmation has been dispatched to your email."
     )
 ```
+

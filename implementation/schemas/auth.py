@@ -22,3 +22,4 @@ class UserSummary(BaseModel):
     email: EmailStr
     full_name: Optional[str]
     role: str
+

@@ -67,3 +67,4 @@ async def test_duplicate_application_zero_enumeration(client):
     
     # Assert message parity (prevents duplicate applicant reconnaissance)
     assert resp1.json()["message"] == resp2.json()["message"]
+

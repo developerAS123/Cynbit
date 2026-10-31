@@ -69,3 +69,4 @@ volumes:
 networks:
   cynbit-network:
     driver: bridge
+

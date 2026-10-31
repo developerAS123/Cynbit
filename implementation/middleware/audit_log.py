@@ -34,3 +34,4 @@ class AuditLoggingMiddleware(BaseHTTPMiddleware):
                 f"ip={client_ip} duration={duration_ms:.2f}ms error={str(exc)}"
             )
             raise exc
+

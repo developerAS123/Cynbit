@@ -76,3 +76,4 @@ Instead of relying on fragile client-side callbacks:
 - Lead submissions: 5 requests / minute.
 - Career applications: 3 requests / 5 minutes.
 - Auth attempts: 5 requests / 15 minutes (with exponential backoff).
+

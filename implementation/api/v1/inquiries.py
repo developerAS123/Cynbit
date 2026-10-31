@@ -43,3 +43,4 @@ async def submit_inquiry(
         message="Thank you for reaching out. Our engineering architects will contact you shortly.",
         inquiry_id=inquiry.id
     )
+

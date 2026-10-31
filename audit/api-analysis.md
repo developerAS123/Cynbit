@@ -112,3 +112,4 @@ vary: RSC, Next-Router-State-Tree, Next-Router-Prefetch
 | **Developer Ergonomics** | Fast initial prototype, slow enterprise refactor | Clear domain separation, testable services, automatic docs (`/docs`) |
 
 Migrating transaction-critical business logic to a dedicated FastAPI backend delivers transparent API governance, automated Swagger/OpenAPI documentation, and robust defense-in-depth.
+

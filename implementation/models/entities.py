@@ -87,3 +87,4 @@ class AuditLog(Base):
     user_agent = Column(String(255), nullable=True)
     status_code = Column(Integer, nullable=False)
     timestamp = Column(DateTime(timezone=True), default=utc_now, nullable=False)
+

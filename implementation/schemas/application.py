@@ -26,3 +26,4 @@ class ApplicationResponse(BaseModel):
     success: bool
     message: str
     application_id: Optional[str] = None
+

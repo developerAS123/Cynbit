@@ -109,3 +109,4 @@ async def test_payment_status_never_exposes_password(client):
     assert "password" not in data
     assert "bitElevateCredentials" not in data
     assert "credentials" not in data
+

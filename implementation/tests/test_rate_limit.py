@@ -17,3 +17,4 @@ def test_sliding_window_rate_limiter_blocks_excess_calls():
         
     assert "429" in str(exc_info.value)
     assert "Rate limit exceeded" in str(exc_info.value)
+

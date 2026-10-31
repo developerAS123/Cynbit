@@ -22,3 +22,4 @@ async def test_security_headers_injected(client):
     assert "camera=()" in headers.get("Permissions-Policy", "")
     assert "max-age=63072000" in headers.get("Strict-Transport-Security", "")
     assert "default-src 'self'" in headers.get("Content-Security-Policy", "")
+

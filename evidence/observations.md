@@ -178,3 +178,4 @@ Loading bundle: `_next/static/chunks/app/intern-portal/dashboard/page-6430ee332a
              : C({ type: "error", text: s.error || "Unable to send reset link. Please check your email address." });
    ```
    *Impact:* The backend returns distinct error messaging when an email is not present in the user database, allowing automated account enumeration scripts to harvest valid user emails.
+

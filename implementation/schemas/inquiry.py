@@ -12,3 +12,4 @@ class InquiryResponse(BaseModel):
     success: bool
     message: str
     inquiry_id: Optional[str] = None
+

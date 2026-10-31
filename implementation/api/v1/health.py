@@ -22,3 +22,4 @@ async def health_check(db: AsyncSession = Depends(get_db)):
         "service": "cynbit-backend-api",
         "database": db_status
     }
+

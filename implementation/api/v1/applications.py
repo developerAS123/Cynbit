@@ -86,3 +86,4 @@ async def submit_application(
         message="Application blueprint received. A confirmation has been dispatched to your email.",
         application_id=new_app.id
     )
+

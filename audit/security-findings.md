@@ -150,3 +150,4 @@ This report categorizes observable security vulnerabilities and architectural de
   1. Cashfree sends asynchronous server-to-server HTTP POST notifications to a dedicated webhook endpoint (`/api/v1/payments/cashfree-webhook`).
   2. The backend cryptographically validates the signature header using **HMAC-SHA256** with the merchant secret key.
   3. Orders are transitioned to `PAID` idempotently within a transactional database lock.
+

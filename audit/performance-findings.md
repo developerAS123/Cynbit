@@ -81,3 +81,4 @@ Serverless lambdas scale out horizontally by spinning up isolated containers. Du
 | **Server Action Cold Starts** | 700ms–1500ms latency spikes on form submissions | FastAPI async daemon with pre-forked workers (`uvicorn`) | **-90% request latency** (<35ms TTFB) |
 | **Client Revalidation Overhead** | Conditional ETag roundtrip on every page load | CDN header: `stale-while-revalidate=86400, max-age=3600` | **-50ms TTFB for cached visitors** |
 | **Database Handshake Cost** | New TCP/TLS connection created per serverless run | Async connection pooling with `pool_size=20, max_overflow=10` | **Zero connection setup overhead** on hot paths |
+

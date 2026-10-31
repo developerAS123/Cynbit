@@ -74,3 +74,4 @@ Cynbit currently operates a **Monolithic Next.js Full-Stack Application** hosted
 | **Credential Hygiene** | Raw password returned in JSON | Severe cryptographic violation (CWE-312 / CWE-319). |
 | **Payment Flow** | Client-side modal settlement | Risk of unpaid fulfillments or unfulfilled orders on network disconnects. |
 | **Access Control** | Static prerendering of private dashboards | Proprietary intern curriculum and engineering challenges exposed to the public internet. |
+

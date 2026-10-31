@@ -50,3 +50,4 @@ async def test_password_reset_zero_enumeration(client, test_user):
     
     # Exact message match prevents enumeration
     assert resp1.json()["message"] == resp2.json()["message"]
+

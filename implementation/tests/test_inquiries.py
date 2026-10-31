@@ -26,3 +26,4 @@ async def test_submit_inquiry_invalid_email(client):
     }
     response = await client.post("/api/v1/inquiries", json=payload)
     assert response.status_code == 422
+
